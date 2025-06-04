@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import CreateDoctor from './pages/CreateDoctor'
 import { useRoutes } from 'react-router-dom'
+import DoctorListPage from './pages/DoctorListPage'
 
 function App() {
   let element = useRoutes([
-    {path:'/createdoctor', element: <CreateDoctor />}
+    {path:'/createdoctor', element: <CreateDoctor />},
+    {path: '/doctorlist', element: <DoctorListPage />}
   ])
 
   return (
