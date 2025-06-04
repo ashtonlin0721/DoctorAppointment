@@ -3,13 +3,16 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import CreateDoctor from './pages/CreateDoctor'
+import { useRoutes } from 'react-router-dom'
 
 function App() {
-
+  let element = useRoutes([
+    {path:'/createdoctor', element: <CreateDoctor />}
+  ])
 
   return (
     <>
-      <CreateDoctor />
+      {element}
     </>
   )
 }
