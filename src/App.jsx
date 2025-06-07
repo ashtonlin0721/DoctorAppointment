@@ -10,6 +10,7 @@ import Home from './pages/Home'
 
 function App() {
   let element = useRoutes([
+    {path: '/', element: <Home /> },
     {path:'/createdoctor', element: <CreateDoctor />},
     {path: '/doctorlist', element: <DoctorListPage />},
     {path: '/book-appointment/:id', element: <BookAppointment />},
