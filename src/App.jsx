@@ -7,6 +7,7 @@ import BookAppointment from './pages/BookAppointment'
 import AppointmentPage from './pages/AppointmentPage'
 import SignInPage from './pages/Signin'
 import Home from './pages/Home'
+import MyAppointmentPage from './pages/MyAppointmentPage'
 
 function App() {
   let element = useRoutes([
@@ -15,7 +16,8 @@ function App() {
     {path: '/doctorlist', element: <DoctorListPage />},
     {path: '/book-appointment/:id', element: <BookAppointment />},
     {path: '/appointment/:id', element: <AppointmentPage />},
-    {path: '/signin', element: <SignInPage />}
+    {path: '/signin', element: <SignInPage />},
+    {path: '/myappointments', element: <MyAppointmentPage />},
   ])
 
   return (
