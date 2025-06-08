@@ -1,4 +1,4 @@
-import { useState } from 'react'
+
 import './App.css'
 import CreateDoctor from './pages/CreateDoctor'
 import { Route, useLocation, Routes } from 'react-router-dom'
@@ -13,6 +13,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { adminAccountId } from './config/config'
 import { Navigate } from 'react-router-dom'
+import Footer from './components/Footer'
 
 function App() {
   const userInfo = JSON.parse(localStorage.getItem('user'));
@@ -70,15 +71,10 @@ function App() {
             }
           />
 
-
-
         </Routes>
-
-
+        <Footer />
 
     </>
-
-  
     )
   }
 
