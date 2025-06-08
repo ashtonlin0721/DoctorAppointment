@@ -8,8 +8,10 @@ import AppointmentPage from './pages/AppointmentPage'
 import SignInPage from './pages/Signin'
 import Home from './pages/Home'
 import MyAppointmentPage from './pages/MyAppointmentPage'
+import Header from './components/Header'
 
 function App() {
+
   let element = useRoutes([
     {path: '/', element: <Home /> },
     {path:'/createdoctor', element: <CreateDoctor />},
@@ -22,6 +24,7 @@ function App() {
 
   return (
     <>
+
       {element}
     </>
   )
