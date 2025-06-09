@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom'
 import { adminAccountId } from './config/config'
 import { Navigate } from 'react-router-dom'
 import Footer from './components/Footer'
+import Cardiology from './pages/Cardiology'
 
 function App() {
   const userInfo = JSON.parse(localStorage.getItem('user'));
@@ -68,6 +69,12 @@ function App() {
           <Route
             path="/myappointments"
             element={isLoggedIn ? <MyAppointmentPage /> : <Navigate to="/" />
+            }
+          />
+
+          <Route
+            path="/cardiologist"
+            element={isLoggedIn ? <Cardiology /> : <Navigate to="/" />
             }
           />
 
