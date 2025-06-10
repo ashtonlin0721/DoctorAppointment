@@ -19,6 +19,7 @@ import Dermatology from './pages/Dermatology'
 import FamilyDoctor from './pages/FamilyDoctor'
 import Neurology from './pages/Neurology'
 import Orthopedic from './pages/Orthopedic'
+import Pediatrics from './pages/Pediatrics'
 
 function App() {
   const userInfo = JSON.parse(localStorage.getItem('user'));
@@ -103,6 +104,12 @@ function App() {
           <Route
             path="/orthopedic"
             element={isLoggedIn ? <Orthopedic /> : <Navigate to="/" />
+            }
+          />
+
+          <Route
+            path="/pediatrics"
+            element={isLoggedIn ? <Pediatrics /> : <Navigate to="/" />
             }
           />
 
