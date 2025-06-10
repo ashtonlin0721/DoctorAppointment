@@ -17,6 +17,7 @@ import Footer from './components/Footer'
 import Cardiology from './pages/Cardiology'
 import Dermatology from './pages/Dermatology'
 import FamilyDoctor from './pages/FamilyDoctor'
+import Neurology from './pages/Neurology'
 
 function App() {
   const userInfo = JSON.parse(localStorage.getItem('user'));
@@ -89,6 +90,12 @@ function App() {
           <Route
             path="/familydoctor"
             element={isLoggedIn ? <FamilyDoctor /> : <Navigate to="/" />
+            }
+          />
+
+          <Route
+            path="/neurology"
+            element={isLoggedIn ? <Neurology /> : <Navigate to="/" />
             }
           />
 
