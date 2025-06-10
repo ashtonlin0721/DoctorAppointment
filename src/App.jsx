@@ -16,6 +16,7 @@ import { Navigate } from 'react-router-dom'
 import Footer from './components/Footer'
 import Cardiology from './pages/Cardiology'
 import Dermatology from './pages/Dermatology'
+import FamilyDoctor from './pages/FamilyDoctor'
 
 function App() {
   const userInfo = JSON.parse(localStorage.getItem('user'));
@@ -82,6 +83,12 @@ function App() {
           <Route
             path="/dermatology"
             element={isLoggedIn ? <Dermatology /> : <Navigate to="/" />
+            }
+          />
+
+          <Route
+            path="/familydoctor"
+            element={isLoggedIn ? <FamilyDoctor /> : <Navigate to="/" />
             }
           />
 
