@@ -19,7 +19,7 @@ import useLocalStorage from '../hooks/useLocalStorage';
 export default function BookAppointment() {
   const [doctor, setDoctor] = useState(null);
   const [selectedSlot = "", setSelectedSlot] = useState("");
-  const [date, setDate] = useState(dayjs());
+  const [date, setDate] = useState();
   const [bookedSlots = [], setBookedSlots] = useState([]);
   const [problem, setProblem] = useState("");
   const [user, setUser] = useLocalStorage('user', null);
@@ -28,13 +28,11 @@ export default function BookAppointment() {
 
   const { id } = useParams();
   const navigate = useNavigate();
-  console.log(date);
   const getDoctor = async () => {
     try {
       const doctor = await GetDoctorById(id);
       if (doctor) {
         setDoctor(doctor);
-        console.log(doctor);
       } else {
         console.log('doctor not found');
       }
@@ -205,10 +203,8 @@ export default function BookAppointment() {
                   value={date}
                   onChange={(newValue) => {
                     if (dayjs.isDayjs(newValue)) {
-                        console.log(newValue);
-            setDate(newValue);
-
-          }
+                        setDate(newValue.format('YYYY-MM-DD'));
+                      }
                   }}
                   slots={{ textField: TextField }}
                   slotProps={{
