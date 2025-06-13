@@ -21,6 +21,7 @@ import Neurology from './pages/Neurology'
 import Orthopedic from './pages/Orthopedic'
 import Pediatrics from './pages/Pediatrics'
 import RegisterPage from './pages/Register'
+import PasswordResetPage from './pages/PasswordResetPage'
 
 function App() {
   const userInfo = JSON.parse(localStorage.getItem('user'));
@@ -43,7 +44,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<RegisterPage />} />
-
+          <Route path="/resetpassword" element={<PasswordResetPage />} />
           <Route path="/signin" element={<SignInPage />} />
           <Route
             path="/createdoctor"
