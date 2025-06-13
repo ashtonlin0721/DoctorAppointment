@@ -23,7 +23,7 @@ export default function BookAppointment() {
   const [bookedSlots = [], setBookedSlots] = useState([]);
   const [problem, setProblem] = useState("");
   const [user, setUser] = useLocalStorage('user', null);
-
+  console.log(date)
 
 
   const { id } = useParams();
