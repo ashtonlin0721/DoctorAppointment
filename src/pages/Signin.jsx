@@ -18,7 +18,7 @@ export default function SignInPage() {
   const [value, updateValue] = useLocalStorage('user', null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const handleEmailPasswordLogin = async () => {
     try {
       dispatch(ShowLoader(true));

@@ -1,7 +1,7 @@
 
 import './App.css'
 import CreateDoctor from './pages/CreateDoctor'
-import { Route, useLocation, Routes } from 'react-router-dom'
+import { Route, useLocation, Routes, BrowserRouter } from 'react-router-dom'
 import DoctorListPage from './pages/DoctorListPage'
 import BookAppointment from './pages/BookAppointment'
 import AppointmentPage from './pages/AppointmentPage'
@@ -22,12 +22,23 @@ import Orthopedic from './pages/Orthopedic'
 import Pediatrics from './pages/Pediatrics'
 import RegisterPage from './pages/Register'
 import PasswordResetPage from './pages/PasswordResetPage'
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useSelector } from 'react-redux'
+
 
 function App() {
   const userInfo = JSON.parse(localStorage.getItem('user'));
+  console.log(userInfo);
   const isLoggedIn = userInfo !== null;
   const isAdmin = isLoggedIn && userInfo.uid === adminAccountId;
+  const { loading } = useSelector((state) => state.loader);
+  const darkMode = useSelector((state) => state.theme.darkMode);
 
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? 'dark' : 'light',
+    },
+  });
 
   const AppWrapper = ()=> {
     const location = useLocation();
@@ -126,10 +137,18 @@ function App() {
   
 
   return (
-    <>
-      <AppWrapper />
-    </>
-  )
+    <div className='App'>
+      <ThemeProvider theme={theme}>
+
+        {loading && <Spinner />}
+        <BrowserRouter>
+          <AppWrapper />
+
+        </BrowserRouter>
+      </ThemeProvider>
+    </div>
+
+  );
 }
 
 export default App
