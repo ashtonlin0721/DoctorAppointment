@@ -17,13 +17,17 @@ import useLocalStorage from '../hooks/useLocalStorage';
 
 
 export default function BookAppointment() {
+  let initialDate = Date();
   const [doctor, setDoctor] = useState(null);
   const [selectedSlot = "", setSelectedSlot] = useState("");
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(dayjs(initialDate));
   const [bookedSlots = [], setBookedSlots] = useState([]);
   const [problem, setProblem] = useState("");
   const [user, setUser] = useLocalStorage('user', null);
+  
+  console.log(dayjs(initialDate).format('YYYY-MM-DD'));
   console.log(date)
+  console.log(bookedSlots);
 
 
   const { id } = useParams();
@@ -41,6 +45,8 @@ export default function BookAppointment() {
     }
   }
 
+  console.log(doctor);
+
   const getSlotsDate = () => {
     console.log(date);
     const newDay = dayjs(date).format('YYYY-MM-DD')
@@ -51,16 +57,20 @@ export default function BookAppointment() {
     }
     let startTime = moment(doctor?.onTime, "HH:mm");
     let endTime = moment(doctor?.offTime, "HH:mm");
+
     let slotDuration = 30;
     const slots = [];
-    while (startTime <= endTime) {
+    
+    while (startTime < endTime) {
    
       slots.push(new moment(startTime).format("HH:mm"));
       startTime.add(slotDuration, "minutes");
     }
-    // console.log(slots);
+    console.log(slots);
+    console.log(bookedSlots);
     return slots.map((slot) => {
       const isBooked = bookedSlots?.find((bookedSlot) => bookedSlot.slot === slot);
+      console.log(isBooked);
       return <div
         key={slot} // To clean up warning in console
         className='bg-white p-1 cursor-pointer'       
@@ -84,6 +94,7 @@ export default function BookAppointment() {
 
   const handleBookAppointment = async () => {
     const newDay = dayjs(date).format('YYYY-MM-DD')
+    
     const appointment = {
       doctorId: doctor.id,
       patientId: user?.uid,
@@ -108,16 +119,17 @@ export default function BookAppointment() {
   }
 
   const getAlreadyBookedSlots = async () => {
+    const newDay = dayjs(date).format('YYYY-MM-DD')
     const appointmentCollectionReference = collection(db, "appointments");
     console.log(appointmentCollectionReference);
-    const querySnapshot = await getDocs(query(appointmentCollectionReference, where("doctorId", "==", doctor?.id), where("date", "==", date)));
+    const querySnapshot = await getDocs(query(appointmentCollectionReference, where("doctorId", "==", doctor?.id), where("date", "==", newDay)));
     console.log(querySnapshot)
     const appointments = [];
     querySnapshot.forEach((doc) => {
       appointments.push({ ...doc.data(), id: doc.id });
     });
     console.log(appointments);  
-    if (appointments.length > 0) {
+    if (appointments.length >= 0) {
       setBookedSlots(appointments);
     }
 
@@ -203,7 +215,7 @@ export default function BookAppointment() {
                   value={date}
                   onChange={(newValue) => {
                     if (dayjs.isDayjs(newValue)) {
-                        setDate(newValue.format('YYYY-MM-DD'));
+                        setDate(newValue);
                       }
                   }}
                   slots={{ textField: TextField }}

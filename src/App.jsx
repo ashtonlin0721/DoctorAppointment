@@ -1,32 +1,34 @@
 
+
 import './App.css'
+import { Navigate, useLocation } from 'react-router-dom'
+import SignInPage from './pages/Signin'
+import HomePage from './pages/Home'
+import RegisterPage from './pages/Register'
 import CreateDoctor from './pages/CreateDoctor'
-import { Route, useLocation, Routes, BrowserRouter } from 'react-router-dom'
-import DoctorListPage from './pages/DoctorListPage'
+import DoctorList from './pages/DoctorListPage'
+import PasswordResetPage from './pages/PasswordResetPage'
 import BookAppointment from './pages/BookAppointment'
 import AppointmentPage from './pages/AppointmentPage'
-import SignInPage from './pages/Signin'
-import Home from './pages/Home'
-import MyAppointmentPage from './pages/MyAppointmentPage'
-import Header from './components/Header'
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import Cardiology from './pages/Cardiology';
+import MyAppointmentPage from './pages/myAppointmentPage';
 import { adminAccountId } from './config/config'
-import { Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Header from './components/Header'
 import Footer from './components/Footer'
-import Cardiology from './pages/Cardiology'
-import Dermatology from './pages/Dermatology'
+import { useSelector } from 'react-redux'
+import Spinner from './components/Spinner'
 import FamilyDoctor from './pages/FamilyDoctor'
 import Neurology from './pages/Neurology'
-import Orthopedic from './pages/Orthopedic'
 import Pediatrics from './pages/Pediatrics'
-import RegisterPage from './pages/Register'
-import PasswordResetPage from './pages/PasswordResetPage'
+import Orthopedic from './pages/Orthopedic'
+import Dermatology from './pages/Dermatology'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { useSelector } from 'react-redux'
+
 
 
 function App() {
+
   const userInfo = JSON.parse(localStorage.getItem('user'));
   console.log(userInfo);
   const isLoggedIn = userInfo !== null;
@@ -40,66 +42,43 @@ function App() {
     },
   });
 
-  const AppWrapper = ()=> {
+  const AppWrapper = () => {
     const location = useLocation();
     const shouldDisplayHeader = location.pathname !== '/signin' && location.pathname !== '/register' && location.pathname !== '/resetpassword';
-    const navigate = useNavigate();
-
-    useEffect(()=>{
-      navigate('/');
-    }, []);
-
-    return(
-    <>
-      {shouldDisplayHeader && <Header />}
+    return (
+      <>
+        {shouldDisplayHeader && <Header />}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/resetpassword" element={<PasswordResetPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/signin" element={<SignInPage />} />
           <Route
             path="/createdoctor"
             element={isAdmin ? <CreateDoctor /> : <Navigate to="/" />}
           />
           <Route
-            path="doctorlist"
-            element={isLoggedIn ? <DoctorListPage /> : <Navigate to="/" />}
-            
+            path="alldoctors"
+            element={isLoggedIn ? <DoctorList /> : <Navigate to="/" />}
           />
-
-          <Route
-            path='alldoctors'
-            element={isLoggedIn ? <DoctorListPage /> : <Navigate to="/" />}
-
-          />
-          
           <Route
             path="/book-appointment/:id"
             element={isLoggedIn ? <BookAppointment /> : <Navigate to="/" />
             }
           />
-          
           <Route
             path="/appointment/:id"
             element={isLoggedIn ? <AppointmentPage /> : <Navigate to="/" />
             }
           />
-
-          <Route
-            path="/myappointments"
-            element={isLoggedIn ? <MyAppointmentPage /> : <Navigate to="/" />
-            }
-          />
-
           <Route
             path="/cardiologist"
             element={isLoggedIn ? <Cardiology /> : <Navigate to="/" />
             }
           />
-
           <Route
-            path="/dermatology"
-            element={isLoggedIn ? <Dermatology /> : <Navigate to="/" />
+            path="/myappoitment"
+            element={isLoggedIn ? <MyAppointmentPage /> : <Navigate to="/" />
             }
           />
 
@@ -116,26 +95,30 @@ function App() {
           />
 
           <Route
+            path="/pediatrics"
+            element={isLoggedIn ? <Pediatrics /> : <Navigate to="/" />
+            }
+          />
+
+          <Route
             path="/orthopedic"
             element={isLoggedIn ? <Orthopedic /> : <Navigate to="/" />
             }
           />
 
           <Route
-            path="/pediatrics"
-            element={isLoggedIn ? <Pediatrics /> : <Navigate to="/" />
+            path="/dermatology"
+            element={isLoggedIn ? <Dermatology /> : <Navigate to="/" />
             }
           />
 
         </Routes>
         <Footer />
 
-    </>
+      </>
+
     )
   }
-
-  
-
   return (
     <div className='App'>
       <ThemeProvider theme={theme}>
