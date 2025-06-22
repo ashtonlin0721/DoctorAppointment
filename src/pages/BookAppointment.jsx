@@ -6,14 +6,13 @@ import { Col, Row } from 'antd';
 import { Container, TextField, Box } from '@mui/material';
 import moment from 'moment';
 import { addDoc, collection, getDocs, where, query } from 'firebase/firestore';
-import { app, db } from '../config/config';
+import { db } from '../config/config';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import dayjs from 'dayjs';
 import useLocalStorage from '../hooks/useLocalStorage';
-
-
+import { useSelector } from 'react-redux';
 
 
 export default function BookAppointment() {
@@ -24,10 +23,7 @@ export default function BookAppointment() {
   const [bookedSlots = [], setBookedSlots] = useState([]);
   const [problem, setProblem] = useState("");
   const [user, setUser] = useLocalStorage('user', null);
-  
-  console.log(dayjs(initialDate).format('YYYY-MM-DD'));
-  console.log(date)
-  console.log(bookedSlots);
+  const darkMode = useSelector((state) => state.theme.darkMode);
 
 
   const { id } = useParams();
@@ -48,10 +44,9 @@ export default function BookAppointment() {
   console.log(doctor);
 
   const getSlotsDate = () => {
-    console.log(date);
     const newDay = dayjs(date).format('YYYY-MM-DD')
     const day = moment(newDay).format('dddd');
-    console.log(day);
+
     if (!doctor?.skills.includes(day)) {
       return <h2 style={{ whiteSpace: "nowrap" }}>Doctor is not available on {moment(date).format("YYYY-MM-DD")}</h2>
     }
@@ -66,11 +61,8 @@ export default function BookAppointment() {
       slots.push(new moment(startTime).format("HH:mm"));
       startTime.add(slotDuration, "minutes");
     }
-    console.log(slots);
-    console.log(bookedSlots);
     return slots.map((slot) => {
       const isBooked = bookedSlots?.find((bookedSlot) => bookedSlot.slot === slot);
-      console.log(isBooked);
       return <div
         key={slot} // To clean up warning in console
         className='bg-white p-1 cursor-pointer'       
@@ -81,7 +73,7 @@ export default function BookAppointment() {
           backgroundColor: isBooked ? "gray" : "white",
           pointerEvents: isBooked ? "none" : "auto",
           cursor: isBooked ? "not-allowed" : "pointer",
-
+          color: darkMode ? "#333" : "inherit",
         }}
       >
         <span>
@@ -105,7 +97,7 @@ export default function BookAppointment() {
       problem: problem,
       status: "pending",
     }
-    console.log(appointment);
+ 
     try {
       const appointmentCollectionReference = collection(db, "appointments");
       const appointmentRef = await addDoc(appointmentCollectionReference, appointment);
@@ -121,18 +113,16 @@ export default function BookAppointment() {
   const getAlreadyBookedSlots = async () => {
     const newDay = dayjs(date).format('YYYY-MM-DD')
     const appointmentCollectionReference = collection(db, "appointments");
-    console.log(appointmentCollectionReference);
     const querySnapshot = await getDocs(query(appointmentCollectionReference, where("doctorId", "==", doctor?.id), where("date", "==", newDay)));
-    console.log(querySnapshot)
+    console.log(querySnapshot);
     const appointments = [];
     querySnapshot.forEach((doc) => {
       appointments.push({ ...doc.data(), id: doc.id });
     });
-    console.log(appointments);  
+
     if (appointments.length >= 0) {
       setBookedSlots(appointments);
     }
-
 
   }
   useEffect(() => {
