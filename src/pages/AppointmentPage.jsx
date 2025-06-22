@@ -12,8 +12,6 @@ export default function AppointmentPage() {
   const [appointment, setAppointment] = useState([]);
   const [appointmentModified, setAppointmentModified] = useState();
   const navigate = useNavigate();
-  console.log(id);
-  console.log(appointment[0]);
 
 
   const GetAppoitmentById = async (id) => {
