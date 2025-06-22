@@ -11,7 +11,7 @@ import PasswordResetPage from './pages/PasswordResetPage'
 import BookAppointment from './pages/BookAppointment'
 import AppointmentPage from './pages/AppointmentPage'
 import Cardiology from './pages/Cardiology';
-import MyAppointmentPage from './pages/myAppointmentPage';
+import MyAppointmentPage from './pages/MyAppointmentPage';
 import { adminAccountId } from './config/config'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from './components/Header'
